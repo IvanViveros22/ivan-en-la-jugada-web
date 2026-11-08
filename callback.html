@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Conexión con TikTok · Iván en la Jugada</title>
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<main>
+  <h1>Conexión con TikTok</h1>
+  <div class="caja" id="caja">Leyendo la respuesta de TikTok…</div>
+  <p class="en">This page only shows the one-time authorization code to the account owner. Nothing is sent anywhere.</p>
+</main>
+<script>
+  // Solo muestra el código en pantalla para que el dueño lo pegue en su
+  // script de configuración. No envía nada a ningún servidor.
+  (function () {
+    var p = new URLSearchParams(location.search);
+    var caja = document.getElementById("caja");
+    var codigo = p.get("code");
+    var error = p.get("error_description") || p.get("error");
+    if (codigo) {
+      caja.innerHTML = "<p>✅ Autorizado. Copia este código y pégalo en la terminal donde corre el script de configuración:</p><p><code></code></p><p>El código vence en pocos minutos y sirve una sola vez.</p>";
+      caja.querySelector("code").textContent = codigo;
+      history.replaceState(null, "", location.pathname);
+    } else if (error) {
+      caja.textContent = "❌ TikTok respondió: " + error;
+    } else {
+      caja.textContent = "Esta página se usa al conectar la cuenta de TikTok del canal.";
+    }
+  })();
+</script>
+</body>
+</html>
